@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Css/imageComponent.css";
 
 // image import from images folder
@@ -34,19 +34,79 @@ const initialDivs = [
 
 function ImageComponent() {
   const [divs, setDivs] = useState(initialDivs); // images store in divs array
-  
+  const [isHover, setIsHover] = useState(false);
+  const [isChecked, setIsClicked] = useState("");
+
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const [count, setCount] = useState(0);
+
   
 
+
+  const handleCheckboxChange = (event) => {
+    const value = event.target.value;
+    const isChecked = event.target.checked;
+    handleCheckboxClick(value.id)
+
+    if (isChecked) {
+      setSelectedCheckboxes([...selectedCheckboxes, value]);
+      setCount(count + 1);
+    } else {
+      const updatedCheckboxes = selectedCheckboxes.filter(
+        (item) => item !== value
+      );
+      setSelectedCheckboxes(updatedCheckboxes);
+      setCount(count - 1);
+    }
+  };
+
+  const handleMouseEnter = (imageId) => {
+    const updatedImages = divs.map((image) =>
+      image.id === imageId ? { ...image, isCheckboxVisible: true } : image
+    );
+    setDivs(updatedImages);
+  };
+
+  const handleMouseLeave = (imageId) => {
+    const updatedImages = divs.map((image) =>
+      image.id === imageId ? { ...image, isCheckboxVisible: false } : image
+    );
+    setDivs(updatedImages);
+  };
+
+  const handleCheckboxClick = (imageId) => {
+    
+    const updatedImages = divs.map((image) =>
+      image.id === imageId ? { ...image, isSelected: !image.isSelected } : image
+    );
+    setDivs(updatedImages);
+
+  }
+  
 
   return (
     <div className="container">
       {/* all images show in gred format */}
 
-      {divs.map((div, index) => (
-        <div className={`draggable-div chield__${index}`}> 
+
+      {divs.map((image, index) => (
+        <div key={image.id}
+        onMouseEnter={() => handleMouseEnter(image.id)}
+        onMouseLeave={() => handleMouseLeave(image.id)} className={`draggable-div chield__${index}`}>
+          { image.isCheckboxVisible &&
+            <input
+              type='checkbox'
+              checked={image.isSelected}
+              value={image.id}
+              className="checkbox"
+              onChange={() => handleCheckboxClick(image.id)}
+            /> 
+          }
+
           <img
+            id={image.id}
             className={`images${index}`}
-            src={div.imageUrl}
+            src={image.imageUrl}
             alt=""
             draggable="true"
           />

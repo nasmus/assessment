@@ -2,6 +2,8 @@
   display: grid;
   grid-template-columns: repeat(5,1fr);
   grid-gap: 20px;
+  position: relative;
+  
 }
 
 .chield__0{
@@ -10,6 +12,7 @@
   width: 100%;
   height: 100%;
 }
+
 
 .draggable-div{
   overflow: hidden;
