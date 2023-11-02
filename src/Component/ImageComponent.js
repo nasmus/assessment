@@ -35,7 +35,7 @@ const initialDivs = [
 function ImageComponent() {
   const [divs, setDivs] = useState(initialDivs); // images store in divs array
   const [isHover, setIsHover] = useState(false);
-  const [isChecked, setIsClicked] = useState("");
+  const [isChecked, setIsClicked] = useState(true);
 
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [count, setCount] = useState(0);
@@ -43,22 +43,22 @@ function ImageComponent() {
   
 
 
-  const handleCheckboxChange = (event) => {
-    const value = event.target.value;
-    const isChecked = event.target.checked;
-    handleCheckboxClick(value.id)
+  // const handleCheckboxChange = (event) => {
+  //   const value = event.target.value;
+  //   const isChecked = event.target.checked;
+  //   console.log(isChecked)
 
-    if (isChecked) {
-      setSelectedCheckboxes([...selectedCheckboxes, value]);
-      setCount(count + 1);
-    } else {
-      const updatedCheckboxes = selectedCheckboxes.filter(
-        (item) => item !== value
-      );
-      setSelectedCheckboxes(updatedCheckboxes);
-      setCount(count - 1);
-    }
-  };
+  //   if (isChecked) {
+  //     setSelectedCheckboxes([...selectedCheckboxes, value]);
+  //     setCount(count + 1);
+  //   } else {
+  //     const updatedCheckboxes = selectedCheckboxes.filter(
+  //       (item) => item !== value
+  //     );
+  //     setSelectedCheckboxes(updatedCheckboxes);
+  //     setCount(count - 1);
+  //   }
+  // };
 
   const handleMouseEnter = (imageId) => {
     const updatedImages = divs.map((image) =>
@@ -72,14 +72,26 @@ function ImageComponent() {
       image.id === imageId ? { ...image, isCheckboxVisible: false } : image
     );
     setDivs(updatedImages);
+
+    
   };
 
   const handleCheckboxClick = (imageId) => {
-    
     const updatedImages = divs.map((image) =>
       image.id === imageId ? { ...image, isSelected: !image.isSelected } : image
     );
     setDivs(updatedImages);
+
+    if (isChecked) {
+      setSelectedCheckboxes([...selectedCheckboxes, imageId]);
+      setCount(count + 1);
+    } else {
+      const updatedCheckboxes = selectedCheckboxes.filter(
+        (item) => item !== imageId
+      );
+      setSelectedCheckboxes(updatedCheckboxes);
+      setCount(count - 1);
+    }
 
   }
   
@@ -87,7 +99,6 @@ function ImageComponent() {
   return (
     <div className="container">
       {/* all images show in gred format */}
-
 
       {divs.map((image, index) => (
         <div key={image.id}
@@ -100,6 +111,7 @@ function ImageComponent() {
               value={image.id}
               className="checkbox"
               onChange={() => handleCheckboxClick(image.id)}
+              //onChange={handleCheckboxChange}
             /> 
           }
 
