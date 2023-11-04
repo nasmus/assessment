@@ -3,13 +3,14 @@
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
-  
+  border-bottom: 2px solid rgba(180, 177, 177, 0.416);
+  margin-bottom: 15px;
   
 }
 .header__input{
   display: flex;
   align-items: center;
-  padding: 10px;
+  
 }
 
 .container{
@@ -17,6 +18,7 @@
   grid-template-columns: repeat(5,1fr);
   grid-gap: 20px;
   position: relative;
+  margin-top: 20px;
   
 }
 
@@ -57,7 +59,7 @@
   height: 100%;
   border-radius: 10px;
   cursor: pointer;
-    
+
 }
 .draggable-div>img:hover{
   background: rgb(50, 49, 49);

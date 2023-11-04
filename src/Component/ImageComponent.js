@@ -35,7 +35,7 @@ function ImageComponent() {
   const [divs, setDivs] = useState(initialDivs); // images store in divs array
   const [count, setCount] = useState(0);
 
-
+  //image drag and drop
   const moveDiv = (fromIndex, toIndex) => {
     const updatedOrder = [...divs];
     const movedDiv = updatedOrder.splice(fromIndex, 1)[0];
@@ -71,11 +71,13 @@ function ImageComponent() {
     setDivs(updatedImages);
   };
 
+  //delete image
   const deleteSelectedImages = () => {
     const deleteImages = divs.filter((image) => !image.isSelected);
     setDivs(deleteImages);
   };
 
+  //image select and select length count
   useEffect(() => {
     const getSelectedImageCount = () => {
       const count = divs.filter((image) => image.isSelected).length;
@@ -93,7 +95,6 @@ function ImageComponent() {
               <input id="default-checkbox" type="checkbox" value="" />
               <label for="default-checkbox">
                 <h2>
-                  {" "}
                   <span style={{ paddingLeft: "10px" }}>{count}</span> Files
                   Selected
                 </h2>
@@ -126,6 +127,7 @@ function ImageComponent() {
             onMouseEnter={() => handleMouseEnter(image.id)}
             onMouseLeave={() => handleMouseLeave(image.id)}
             className={`draggable-div chield__${index}`}
+            //drag and drop image
             onDragStart={(e) => e.dataTransfer.setData('index', index)}
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => {
